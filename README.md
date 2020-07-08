@@ -21,7 +21,25 @@ pip install --editable .
 
 ## Pre-trained Models
 
-To be released.
+Pre-trained models could be downloaded from this [Google Drive shared folder](https://drive.google.com/drive/folders/1fDW9rLssgDAv19OMcFGgFJ5iyd9p7flg?usp=sharing).
+Please uncompress the tarball files before usage.
+
+Pre-trained models could be downloaded from command line as follows:
+```shell script
+pip install gdown
+
+# TaBERT_Base_(k=1)
+gdown 'https://drive.google.com/uc?id=1-pdtksj9RzC4yEqdrJQaZu4-dIEXZbM9'
+
+# TaBERT_Base_(K=3)
+gdown 'https://drive.google.com/uc?id=1NPxbGhwJF1uU9EC18YFsEZYE-IQR7ZLj'
+
+# TaBERT_Large_(k=1)
+gdown 'https://drive.google.com/uc?id=1eLJFUWnrJRo6QpROYWKXlbSOjRDDZ3yZ'
+
+# TaBERT_Large_(K=3)
+gdown 'https://drive.google.com/uc?id=17NTNIqxqYexAzaH_TgEfK42-KmjIRC-g'
+```
 
 ## Using a Pre-trained Model
 
