@@ -38,8 +38,7 @@ class VanillaTableBert(TableBertModel):
         self.input_formatter = VanillaTableBertInputFormatter(self.config, self.tokenizer)
 
     def forward(self, input_ids, token_type_ids=None, attention_mask=None, masked_lm_labels=None, **kwargs):
-        sequence_output, _ = self._bert_model.bert(input_ids, token_type_ids, attention_mask,
-                                       output_all_encoded_layers=False)
+        sequence_output, _ = self._bert_model.bert(input_ids, token_type_ids, attention_mask)
         prediction_scores = self._bert_model.cls(sequence_output)
 
         if masked_lm_labels is not None:
