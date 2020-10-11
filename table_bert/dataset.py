@@ -343,7 +343,7 @@ class Example(object):
 
                     column_data[col_id].append(cell_val)
         else:
-            for row in entry['table']['rows']:
+            for row in entry['table']['data']:
                 for col_id, (cell_val) in enumerate(row):
                     if col_id >= len(column_data):
                         column_data.append([])
