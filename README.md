@@ -143,6 +143,10 @@ The following command pre-processes [a sample](http://data.dws.informatik.uni-ma
 of the whole WDC dataset. To preprocess the whole dataset, simply replace 
 the `input_file` with the root folder of the downloaded tar ball files.
 ```shell script
+mkdir -p data/datasets
+wget http://data.dws.informatik.uni-mannheim.de/webtables/2015-07/sample.gz -P data/datasets
+gzip -d < data/datasets/sample.gz > data/datasets/commoncrawl.sample.jsonl
+
 python \
     -m preprocess.common_crawl \
     --worker_num 12 \
