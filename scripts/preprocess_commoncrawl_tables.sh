@@ -1,4 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Copyright (c) Facebook, Inc. and its affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+
 
 CW_DATA_PATH=data/datasets/commoncrawl.sample.jsonl
 OUTPUT_FILE=data/preprocessed_data/common_crawl.preprocessed.jsonl
