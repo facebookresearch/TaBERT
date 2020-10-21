@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+# Copyright (c) Facebook, Inc. and its affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+
 set +e
 
 output_dir=data/train_data/vanilla_tabert
