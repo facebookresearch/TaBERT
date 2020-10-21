@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+#
+#  Adapted from WikiTableQuestions dataset release (https://github.com/ppasupat/WikiTableQuestions/blob/master/table-to-csv.py)
+#  Original Authors: Panupong Pasupat, Percy Liang.
+#
+
+
 """Table processor.
 Get statistics about a table and convert it to CSV.
 """
