@@ -2,6 +2,8 @@
 
 This repository contains source code for the [`TaBERT` model](https://arxiv.org/abs/2005.08314), a pre-trained language model for learning joint representations of natural language utterances and (semi-)structured tables for semantic parsing. `TaBERT` is pre-trained on a massive corpus of 26M Web tables and their associated natural language context, and could be used as a drop-in replacement of a semantic parsers original encoder to compute representations for utterances and table schemas (columns).
 
+**Update:** A WIP branch `py3.8torch1.9transformers4.9` contains a updated version of the model that works with pytorch 1.9 and transformers 4.9.
+
 ## Installation
 
 First, install the conda environment `tabert` with supporting libraries.
