@@ -11,7 +11,7 @@ from pathlib import Path
 
 from typing import Union
 
-from table_bert.utils import BertForMaskedLM
+from transformers import BertForMaskedLM
 from table_bert.config import TableBertConfig, BERT_CONFIGS
 
 

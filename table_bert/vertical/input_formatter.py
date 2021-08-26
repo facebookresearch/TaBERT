@@ -11,7 +11,7 @@ import numpy as np
 from itertools import chain
 from typing import List, Callable, Any, Dict
 
-from table_bert.utils import BertTokenizer
+from transformers import BertTokenizer
 from table_bert.config import TableBertConfig
 from table_bert.dataset import Example
 from table_bert.input_formatter import TableBertBertInputFormatter, VanillaTableBertInputFormatter

@@ -17,15 +17,19 @@ import torch.nn as nn
 
 from torch_scatter import scatter_mean
 from fairseq import distributed_utils
+from transformers.modeling_outputs import BaseModelOutputWithPoolingAndCrossAttentions
 
 from table_bert.table import Column
-from table_bert.utils import (
-    BertConfig, BertForPreTraining, BertForMaskedLM,
-    BertSelfOutput, BertIntermediate, BertOutput,
-    BertLMPredictionHead, BertLayerNorm,
-    gelu,
-    TransformerVersion, TRANSFORMER_VERSION
+from transformers import (
+    BertConfig, BertForPreTraining, BertForMaskedLM
 )
+
+from transformers.models.bert.modeling_bert import (
+    BertSelfOutput, BertIntermediate, BertOutput,
+    BertLMPredictionHead,
+)
+from transformers.activations import gelu
+
 from table_bert.vanilla_table_bert import VanillaTableBert, VanillaTableBertInputFormatter, TableBertConfig
 from table_bert.table import *
 from table_bert.vertical.config import VerticalAttentionTableBertConfig
@@ -134,9 +138,9 @@ class SpanBasedPrediction(nn.Module):
         super(SpanBasedPrediction, self).__init__()
         
         self.dense1 = nn.Linear(config.hidden_size * 2, config.hidden_size, bias=False)
-        self.layer_norm1 = BertLayerNorm(config.hidden_size, eps=config.layer_norm_eps)
+        self.layer_norm1 = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
         self.dense2 = nn.Linear(config.hidden_size, config.hidden_size, bias=False)
-        self.layer_norm2 = BertLayerNorm(config.hidden_size, eps=config.layer_norm_eps)
+        self.layer_norm2 = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
 
         self.prediction = prediction_layer
 
@@ -211,10 +215,7 @@ class VerticalAttentionTableBert(VanillaTableBert):
             ])
 
         for module in added_modules:
-            if TRANSFORMER_VERSION == TransformerVersion.TRANSFORMERS:
-                module.apply(self._bert_model._init_weights)
-            else:
-                module.apply(self._bert_model.init_bert_weights)
+            module.apply(self._bert_model._init_weights)
 
     @property
     def parameter_type(self):
@@ -265,17 +266,18 @@ class VerticalAttentionTableBert(VanillaTableBert):
 
         # (batch_size * max_row_num, sequence_len, hidden_size)
         # (sequence_output, pooler_output)
-        if TRANSFORMER_VERSION == TransformerVersion.PYTORCH_PRETRAINED_BERT:
-            kwargs = {'output_all_encoded_layers': False}
-        else:
-            kwargs = {}
+        # if TRANSFORMER_VERSION == TransformerVersion.PYTORCH_PRETRAINED_BERT:
+        #     kwargs = {'output_all_encoded_layers': False}
+        # else:
+        #     kwargs = {}
 
-        bert_output, _ = self.bert(
+        bert_output_datum: BaseModelOutputWithPoolingAndCrossAttentions = self.bert(
             input_ids=flattened_input_ids,
             token_type_ids=flattened_segment_ids,
             attention_mask=flattened_sequence_mask,
-            **kwargs
+            # **kwargs
         )
+        bert_output = bert_output_datum.last_hidden_state
 
         # torch.save(
         #     {

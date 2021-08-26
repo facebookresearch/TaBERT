@@ -34,7 +34,7 @@ from tqdm import tqdm, trange
 
 from random import shuffle, choice, sample, random
 
-from table_bert.utils import BertTokenizer
+from transformers import BertTokenizer
 
 from table_bert.input_formatter import VanillaTableBertInputFormatter, TableBertBertInputFormatter
 from table_bert.config import TableBertConfig

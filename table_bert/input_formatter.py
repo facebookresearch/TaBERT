@@ -9,7 +9,7 @@ from math import ceil
 from random import choice, shuffle, sample, random
 from typing import List, Callable, Dict, Any
 
-from table_bert.utils import BertTokenizer
+from transformers import BertTokenizer
 from table_bert.table_bert import MAX_BERT_INPUT_LENGTH
 from table_bert.config import TableBertConfig
 from table_bert.dataset import Example

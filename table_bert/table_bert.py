@@ -14,11 +14,12 @@ import logging
 import torch
 from torch import nn as nn
 
-from table_bert.utils import (
-    BertForPreTraining, BertForMaskedLM, BertModel,
-    BertTokenizer, BertConfig,
-    TransformerVersion, TRANSFORMER_VERSION
+from transformers import (
+    BertModel, BertForPreTraining, BertForMaskedLM,
+    BertConfig,
+    BertTokenizer
 )
+
 from table_bert.table import Table
 from table_bert.config import TableBertConfig
 
@@ -125,20 +126,18 @@ class TableBertModel(nn.Module):
             # fix the name for weight `cls.predictions.decoder.bias`,
             # to make it compatible with the latest version of `transformers`
 
-            from table_bert.utils import hf_flag
-            if hf_flag == 'new':
-                old_key_to_new_key_names: List[(str, str)] = []
-                for key in state_dict:
-                    if key.endswith('.predictions.bias'):
-                        old_key_to_new_key_names.append(
-                            (
-                                key,
-                                key.replace('.predictions.bias', '.predictions.decoder.bias')
-                            )
+            old_key_to_new_key_names: List[(str, str)] = []
+            for key in state_dict:
+                if key.endswith('.predictions.bias'):
+                    old_key_to_new_key_names.append(
+                        (
+                            key,
+                            key.replace('.predictions.bias', '.predictions.decoder.bias')
                         )
+                    )
 
-                for old_key, new_key in old_key_to_new_key_names:
-                    state_dict[new_key] = state_dict[old_key]
+            for old_key, new_key in old_key_to_new_key_names:
+                state_dict[new_key] = state_dict[old_key]
 
             if not any(key.startswith('_bert_model') for key in state_dict):
                 print('warning: loading model from an old version', file=sys.stderr)
@@ -220,21 +219,21 @@ class TableBertModel(nn.Module):
 
         # fix the name for weight `cls.predictions.decoder.bias`,
         # to make it compatible with the latest version of HuggingFace `transformers`
-        if TRANSFORMER_VERSION == TransformerVersion.TRANSFORMERS:
-            old_key_to_new_key_names: List[(str, str)] = []
-            for key in state_dict:
-                if key.endswith('.predictions.bias'):
-                    old_key_to_new_key_names.append(
-                        (
-                            key,
-                            key.replace('.predictions.bias', '.predictions.decoder.bias')
-                        )
+        old_key_to_new_key_names: List[(str, str)] = []
+        for key in state_dict:
+            if key.endswith('.predictions.bias'):
+                old_key_to_new_key_names.append(
+                    (
+                        key,
+                        key.replace('.predictions.bias', '.predictions.decoder.bias')
                     )
+                )
 
-            for old_key, new_key in old_key_to_new_key_names:
-                state_dict[new_key] = state_dict[old_key]
+        for old_key, new_key in old_key_to_new_key_names:
+            state_dict[new_key] = state_dict[old_key]
 
-        model.load_state_dict(state_dict, strict=True)
+        output = model.load_state_dict(state_dict, strict=False)
+        print(output)
 
         return model
 

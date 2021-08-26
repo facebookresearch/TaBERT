@@ -8,7 +8,7 @@
 from typing import List, Dict, Any, Union
 import pandas as pd
 
-from table_bert.utils import BertTokenizer
+from transformers import BertTokenizer
 
 
 class Column(object):

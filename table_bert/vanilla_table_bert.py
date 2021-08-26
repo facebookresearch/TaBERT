@@ -17,7 +17,7 @@ import torch
 from torch.nn import CrossEntropyLoss
 from torch_scatter import scatter_max, scatter_mean
 
-from table_bert.utils import BertForPreTraining, BertForMaskedLM, TRANSFORMER_VERSION, TransformerVersion
+from transformers import BertForPreTraining, BertForMaskedLM
 from table_bert.table_bert import TableBertModel
 from table_bert.config import TableBertConfig, BERT_CONFIGS
 from table_bert.table import Table
@@ -79,11 +79,7 @@ class VanillaTableBert(TableBertModel):
         # print('column_token_to_column_id', column_token_to_column_id.sum(dim=-1), file=sys.stderr)
         # print('column_mask', column_mask.size(), file=sys.stderr)
 
-        kwargs = (
-            {}
-            if TRANSFORMER_VERSION == TransformerVersion.TRANSFORMERS
-            else {'output_all_encoded_layers': False}
-        )
+        kwargs = ()
         sequence_output, _ = self.bert(
             input_ids=input_ids, token_type_ids=segment_ids, attention_mask=attention_mask,
             **kwargs

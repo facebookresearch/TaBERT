@@ -15,7 +15,7 @@ from collections import OrderedDict
 from types import SimpleNamespace
 from typing import Dict, Union
 
-from table_bert.utils import BertTokenizer, BertConfig
+from transformers import BertTokenizer, BertConfig
 
 
 BERT_CONFIGS = {

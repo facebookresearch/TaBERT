@@ -22,7 +22,7 @@ import redis
 import numpy as np
 import torch
 import zmq
-from table_bert.utils import BertTokenizer
+from transformers import BertTokenizer
 from table_bert.config import TableBertConfig
 from torch.utils.data import Dataset
 from torch.utils.data.sampler import Sampler
